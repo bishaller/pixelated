@@ -1,0 +1,102 @@
+.toolkit {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 180px;
+  max-width: 200px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.tk-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tk-section + .tk-section {
+  padding-top: 12px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.tk-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #2e2e40;
+  margin: 0;
+}
+
+.tk-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tk-slider {
+  width: 100%;
+  accent-color: #5e5e72;
+  cursor: pointer;
+}
+
+.tk-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #9090a4;
+}
+
+.tk-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #5e5e72;
+}
+
+.tk-palette-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tk-chip {
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: #f0f0f5;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #5e5e72;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.tk-chip:hover {
+  background: #e8e8f0;
+}
+
+.tk-chip.active {
+  border-color: #5e5e72;
+  background: #e0e0ec;
+  color: #2e2e40;
+}
+
+.tk-toggle {
+  padding: 3px 10px;
+  border: 1px solid #c4c4d2;
+  border-radius: 3px;
+  background: #f0f0f5;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #9090a4;
+  transition: all 0.15s ease;
+}
+
+.tk-toggle.on {
+  background: #2e2e40;
+  border-color: #2e2e40;
+  color: #f0f0f5;
+}
