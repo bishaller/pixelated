@@ -1,0 +1,87 @@
+.v5-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.v5-canvas {
+  image-rendering: pixelated;
+  width: 480px;
+  height: 480px;
+  cursor: crosshair;
+}
+
+.v5-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 160px;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+}
+
+.v5-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.v5-section + .v5-section {
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.v5-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #2e2e40;
+  margin-bottom: 4px;
+}
+
+.v5-tool-row {
+  display: flex;
+  gap: 4px;
+}
+
+.v5-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid #c4c4d2;
+  border-radius: 4px;
+  color: #5e5e72;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.v5-btn:hover {
+  border-color: #5e5e72;
+  color: #2e2e40;
+  background: #f0f0f5;
+}
+
+.v5-btn.active {
+  border-color: #2e2e40;
+  color: #2e2e40;
+  background: #f0f0f5;
+}
+
+.v5-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #5e5e72;
+}
+
+.v5-slider {
+  width: 100%;
+  accent-color: #5e5e72;
+  cursor: pointer;
+}

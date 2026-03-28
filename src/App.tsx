@@ -1,13 +1,18 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { pixels } from './pixels'
 import { pixelsV2 } from './pixelsV2'
 import { computeMask } from './mask'
-import { allShades, allHairs } from './canvasData'
+import { allShades, allHairs, hairs384 } from './canvasData'
 import { PixelCanvas } from './PixelCanvas'
 import { Toolkit } from './Toolkit'
+import { PixelV5 } from './PixelV5'
+import { PixelV6 } from './PixelV6'
+import { PixelV7 } from './PixelV7'
 import './App.css'
 
 const SHADES = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5'] as const
+
+const SIZE = 384
 
 const styles = [
   { id: 'mono', label: 'Mono' },
@@ -24,11 +29,28 @@ const versions = [
   { id: 2, label: 'Version 2', description: 'Subject only' },
   { id: 3, label: 'Version 3', description: 'Artistic' },
   { id: 4, label: 'Version 4', description: 'Toolkit' },
+  { id: 5, label: 'Version 5', description: 'Hair mask' },
+  { id: 6, label: 'Version 6', description: 'Particles' },
+  { id: 7, label: 'Version 7', description: 'Pixel icons' },
 ]
+
+function initHairMask(): Uint8Array {
+  const mask = new Uint8Array(SIZE * SIZE)
+  for (let i = 0; i < SIZE * SIZE; i++) {
+    mask[i] = hairs384[i] === '1' ? 1 : 0
+  }
+  return mask
+}
 
 function App() {
   const [selected, setSelected] = useState(1)
   const [v3Style, setV3Style] = useState('mono')
+
+  // Shared hair mask — edited in V5, read by V4 and V6
+  const hairMask = useRef<Uint8Array>(initHairMask())
+  // Bump this to force V4/V6 to re-read the mask
+  const [maskVersion, setMaskVersion] = useState(0)
+  const onMaskChange = () => setMaskVersion(v => v + 1)
 
   // V4 state
   const [density, setDensity] = useState(192)
@@ -115,10 +137,24 @@ function App() {
           </div>
         )}
 
+        {selected === 7 && (
+          <PixelV7 hairMask={hairMask.current} maskVersion={maskVersion} />
+        )}
+
+        {selected === 6 && (
+          <PixelV6 hairMask={hairMask.current} maskVersion={maskVersion} />
+        )}
+
+        {selected === 5 && (
+          <PixelV5 hairMask={hairMask.current} onMaskChange={onMaskChange} />
+        )}
+
         {selected === 4 && (
           <PixelCanvas
             shades={allShades[density]}
             hairs={allHairs[density]}
+            hairMask={hairMask.current}
+            maskVersion={maskVersion}
             size={density}
             palette={v4Palette}
             animEnabled={animEnabled}

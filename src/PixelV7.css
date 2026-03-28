@@ -1,0 +1,126 @@
+.v7-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.v7-cards {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  padding-right: 180px;
+}
+
+.v7-card {
+  background: #1e1e32;
+  border-radius: 12px;
+  padding: 14px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.v7-card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 0 24px rgba(100, 100, 200, 0.15);
+}
+
+.v7-card-canvas {
+  border-radius: 4px;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+
+.v7-card-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.v7-card-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #5a5a7e;
+}
+
+.v7-card-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 5px;
+  color: #3a3a5e;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.v7-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 140px;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+}
+
+.v7-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.v7-section + .v7-section {
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.v7-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #2e2e40;
+}
+
+.v7-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #9090a4;
+}
+
+.v7-slider {
+  width: 100%;
+  accent-color: #5e5e72;
+  cursor: pointer;
+}
+
+.v7-btn-row {
+  display: flex;
+  gap: 4px;
+}
+
+.v7-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 6px 12px;
+  border: 1px solid #c4c4d2;
+  border-radius: 4px;
+  background: transparent;
+  color: #5e5e72;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.v7-btn:hover {
+  border-color: #5e5e72;
+  color: #2e2e40;
+  background: #f0f0f5;
+}
+
+.v7-btn.active {
+  background: #2e2e40;
+  border-color: #2e2e40;
+  color: #f0f0f5;
+}

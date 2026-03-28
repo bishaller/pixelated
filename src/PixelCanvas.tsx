@@ -111,6 +111,8 @@ function computeBgMask(shades: string, size: number): Uint8Array {
 interface PixelCanvasProps {
   shades: string    // flat string of shade chars '0'-'5'
   hairs: string     // flat string of '0'/'1'
+  hairMask: Uint8Array  // shared editable mask from V5
+  maskVersion: number   // bumped when mask changes
   size: number      // grid dimension (e.g. 384)
   palette: string
   animEnabled: boolean
@@ -122,6 +124,8 @@ interface PixelCanvasProps {
 export function PixelCanvas({
   shades,
   hairs,
+  hairMask,
+  maskVersion,
   size,
   palette,
   animEnabled,
@@ -138,23 +142,39 @@ export function PixelCanvas({
     bgMask.current = computeBgMask(shades, size)
   }, [shades, size])
 
-  // Pre-compute distance from scalp for each hair pixel (once)
+  // Downsample shared 384 mask to current density + compute dist from scalp
+  const hairAtSize = useRef<Uint8Array | null>(null)
   const distFromScalp = useRef<Float32Array | null>(null)
   useEffect(() => {
+    const MASK_SRC = 384
+    const scale = MASK_SRC / size
+    const h = new Uint8Array(size * size)
+    // Downsample: majority vote
+    for (let y = 0; y < size; y++) {
+      for (let x = 0; x < size; x++) {
+        let trueCount = 0, count = 0
+        for (let sy = Math.floor(y * scale); sy < Math.floor((y + 1) * scale); sy++) {
+          for (let sx = Math.floor(x * scale); sx < Math.floor((x + 1) * scale); sx++) {
+            if (hairMask[sy * MASK_SRC + sx] === 1) trueCount++
+            count++
+          }
+        }
+        h[y * size + x] = trueCount > count / 2 ? 1 : 0
+      }
+    }
+    hairAtSize.current = h
+
+    // Compute distance from scalp
     const dist = new Float32Array(size * size)
-    // Find topmost hair pixel per column
     const topY = new Int32Array(size).fill(size)
     for (let x = 0; x < size; x++) {
       for (let y = 0; y < size; y++) {
-        if (hairs[y * size + x] === '1') {
-          topY[x] = y
-          break
-        }
+        if (h[y * size + x] === 1) { topY[x] = y; break }
       }
     }
     let maxDist = 0
     for (let i = 0; i < size * size; i++) {
-      if (hairs[i] === '1') {
+      if (h[i] === 1) {
         const x = i % size
         const y = Math.floor(i / size)
         const d = y - topY[x]
@@ -164,11 +184,11 @@ export function PixelCanvas({
     }
     if (maxDist > 0) {
       for (let i = 0; i < size * size; i++) {
-        if (hairs[i] === '1') dist[i] /= maxDist
+        if (h[i] === 1) dist[i] /= maxDist
       }
     }
     distFromScalp.current = dist
-  }, [hairs, size])
+  }, [hairMask, maskVersion, size])
 
   // Main render + animation loop
   useEffect(() => {
@@ -180,11 +200,13 @@ export function PixelCanvas({
     const imgData = ctx.createImageData(size, size)
     const pal = PALETTES[palette] || PALETTES.mono
     const hairPal = HAIR_PALETTES[palette] || HAIR_PALETTES.mono
-    const dist = distFromScalp.current
-    const bg = bgMask.current
     const startTime = performance.now()
 
     function render(now?: number) {
+      // Read refs fresh every frame — never capture in closure
+      const dist = distFromScalp.current
+      const h = hairAtSize.current
+      const bg = bgMask.current
       const d = imgData.data
       const t = animEnabled && now != null
         ? (now - startTime) / 1000 / animSpeed
@@ -192,7 +214,7 @@ export function PixelCanvas({
 
       for (let i = 0; i < size * size; i++) {
         const s = parseInt(shades[i])
-        const isHair = hairs[i] === '1'
+        const isHair = h !== null && h[i] === 1
         const idx = i * 4
 
         // Background removal via flood-fill mask
@@ -243,7 +265,7 @@ export function PixelCanvas({
     render(animEnabled ? performance.now() : undefined)
 
     return () => cancelAnimationFrame(rafId.current)
-  }, [shades, hairs, size, palette, animEnabled, animSpeed, animAmplitude, showSubjectOnly])
+  }, [shades, hairs, size, palette, animEnabled, animSpeed, animAmplitude, showSubjectOnly, maskVersion])
 
   return (
     <canvas
