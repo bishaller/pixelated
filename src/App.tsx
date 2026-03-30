@@ -9,6 +9,7 @@ import { PixelV5 } from './PixelV5'
 import { PixelV6 } from './PixelV6'
 import { PixelV7 } from './PixelV7'
 import { PixelV8 } from './PixelV8'
+import { PixelV9 } from './PixelV9'
 import './App.css'
 
 const SHADES = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5'] as const
@@ -34,6 +35,7 @@ const versions = [
   { id: 6, label: 'Version 6', description: 'Particles' },
   { id: 7, label: 'Version 7', description: 'Pixel icons' },
   { id: 8, label: 'Version 8', description: 'Animated' },
+  { id: 9, label: 'Version 9', description: 'Minesweeper' },
 ]
 
 function initHairMask(): Uint8Array {
@@ -137,6 +139,10 @@ function App() {
               })
             )}
           </div>
+        )}
+
+        {selected === 9 && (
+          <PixelV9 hairMask={hairMask.current} maskVersion={maskVersion} />
         )}
 
         {selected === 8 && (

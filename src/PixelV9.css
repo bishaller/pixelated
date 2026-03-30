@@ -1,0 +1,125 @@
+.v9-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.v9-canvas-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.v9-canvas {
+  cursor: pointer;
+}
+
+.v9-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 160px;
+  max-width: 200px;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+}
+
+.v9-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.v9-section + .v9-section {
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.v9-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #2e2e40;
+}
+
+.v9-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #5e5e72;
+}
+
+.v9-win {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #00cc66;
+  text-align: center;
+  padding: 6px;
+}
+
+.v9-lose {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #ff4444;
+  text-align: center;
+  padding: 6px;
+}
+
+.v9-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #5e5e72;
+}
+
+.v9-value {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #9090a4;
+}
+
+.v9-hint {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 6px;
+  color: #9090a4;
+}
+
+.v9-slider {
+  width: 100%;
+  accent-color: #5e5e72;
+  cursor: pointer;
+}
+
+.v9-btn-row {
+  display: flex;
+  gap: 4px;
+}
+
+.v9-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 6px 12px;
+  border: 1px solid #c4c4d2;
+  border-radius: 4px;
+  background: transparent;
+  color: #5e5e72;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.v9-btn:hover {
+  border-color: #5e5e72;
+  color: #2e2e40;
+  background: #f0f0f5;
+}
+
+.v9-btn.active {
+  background: #2e2e40;
+  border-color: #2e2e40;
+  color: #f0f0f5;
+}
